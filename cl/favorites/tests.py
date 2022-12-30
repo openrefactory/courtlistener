@@ -343,11 +343,14 @@ class UserFavoritesTest(BaseSeleniumTest):
             user__username=params["username"],
             user__password=make_password(params["password"]),
         )
-        test_tag = UserTag.objects.create(user=test_user, name=tag_name,
-                                          title="Test tag")
+        test_tag = UserTag.objects.create(
+            user=test_user, name=tag_name, title="Test tag"
+        )
 
-        path = reverse("view_tag", kwargs={"username": params["username"],
-                                           "tag_name": tag_name})
+        path = reverse(
+            "view_tag",
+            kwargs={"username": params["username"], "tag_name": tag_name},
+        )
         request = RequestFactory().get(path)
 
         # Increment view counter by 1
@@ -521,5 +524,3 @@ class APITests(APITestCase):
         UserTag.objects.filter(pk=tag_id).update(published=True)
         response = self.client2.get(self.docket_path)
         self.assertEqual(response.json()["count"], 1)
-
-
