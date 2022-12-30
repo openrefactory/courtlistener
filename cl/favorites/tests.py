@@ -1,7 +1,7 @@
 import time
 
 from django.contrib.auth.hashers import make_password
-from django.test import Client
+from django.test import Client, RequestFactory
 from django.urls import reverse
 from rest_framework.status import (
     HTTP_200_OK,
@@ -14,6 +14,7 @@ from timeout_decorator import timeout_decorator
 from cl.favorites.factories import FavoriteFactory
 from cl.favorites.models import DocketTag, Favorite, UserTag
 from cl.lib.test_helpers import SimpleUserDataMixin
+from cl.lib.view_utils import increment_view_count
 from cl.search.views import get_homepage_stats
 from cl.tests.base import SELENIUM_TIMEOUT, BaseSeleniumTest
 from cl.tests.cases import APITestCase, TestCase
@@ -333,6 +334,30 @@ class UserFavoritesTest(BaseSeleniumTest):
         self.assert_text_in_node("Renamed Favorite", "body")
         self.assert_text_in_node("Modified Notes", "body")
 
+    def test_revert_usertag(self):
+        # Can we revert an object that is being tracked with django-pghistory?
+
+        tag_name = "test-tag"
+        params = {"username": "kramirez", "password": "password"}
+        test_user = UserProfileWithParentsFactory.create(
+            user__username=params["username"],
+            user__password=make_password(params["password"]),
+        )
+        test_tag = UserTag.objects.create(user=test_user, name=tag_name,
+                                          title="Test tag")
+
+        path = reverse("view_tag", kwargs={"username": params["username"],
+                                           "tag_name": tag_name})
+        request = RequestFactory().get(path)
+
+        # Increment view counter by 1
+        increment_view_count(test_tag, request)
+        self.assertEqual(test_tag.view_count, 1)
+
+        # Revert object to last change, and check view counter
+        test_tag.history.order_by("-pgh_id")[0]
+        self.assertEqual(test_tag.view_count, 0)
+
 
 class APITests(APITestCase):
     """Check that tags are created correctly and blocked correctly via APIs"""
@@ -496,3 +521,5 @@ class APITests(APITestCase):
         UserTag.objects.filter(pk=tag_id).update(published=True)
         response = self.client2.get(self.docket_path)
         self.assertEqual(response.json()["count"], 1)
+
+
