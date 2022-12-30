@@ -8,8 +8,10 @@ from cl.lib.models import AbstractDateTimeModel
 from cl.search.models import Docket, OpinionCluster, RECAPDocument
 
 
-@pghistory.track(pghistory.Snapshot(),
-                 obj_field=pghistory.ObjForeignKey(related_name="history"))
+@pghistory.track(
+    pghistory.Snapshot(),
+    obj_field=pghistory.ObjForeignKey(related_name="history"),
+)
 class Favorite(models.Model):
     date_created = models.DateTimeField(
         help_text="The original creation date for the item",
@@ -70,8 +72,10 @@ class Favorite(models.Model):
         )
 
 
-@pghistory.track(pghistory.Snapshot(),
-                 obj_field=pghistory.ObjForeignKey(related_name="history"))
+@pghistory.track(
+    pghistory.Snapshot(),
+    obj_field=pghistory.ObjForeignKey(related_name="history"),
+)
 class DocketTag(models.Model):
     """Through table linking dockets to tags"""
 
@@ -88,8 +92,10 @@ class DocketTag(models.Model):
         unique_together = (("docket", "tag"),)
 
 
-@pghistory.track(pghistory.Snapshot(),
-                 obj_field=pghistory.ObjForeignKey(related_name="history"))
+@pghistory.track(
+    pghistory.Snapshot(),
+    obj_field=pghistory.ObjForeignKey(related_name="history"),
+)
 class UserTag(AbstractDateTimeModel):
     """Tags that can be added by users to various objects"""
 
@@ -132,8 +138,10 @@ class UserTag(AbstractDateTimeModel):
         index_together = (("user", "name"),)
 
 
-@pghistory.track(pghistory.Snapshot(),
-                 obj_field=pghistory.ObjForeignKey(related_name="history"))
+@pghistory.track(
+    pghistory.Snapshot(),
+    obj_field=pghistory.ObjForeignKey(related_name="history"),
+)
 class Prayer(models.Model):
     WAITING = 1
     GRANTED = 2
