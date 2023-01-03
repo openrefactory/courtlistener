@@ -19,7 +19,7 @@ from cl.search.views import get_homepage_stats
 from cl.tests.base import SELENIUM_TIMEOUT, BaseSeleniumTest
 from cl.tests.cases import APITestCase, TestCase
 from cl.tests.utils import make_client
-from cl.users.factories import UserProfileWithParentsFactory, UserFactory
+from cl.users.factories import UserFactory, UserProfileWithParentsFactory
 
 
 class FavoriteTest(SimpleUserDataMixin, TestCase):
