@@ -358,7 +358,7 @@ class UserFavoritesTest(BaseSeleniumTest):
         self.assertEqual(test_tag.view_count, 1)
 
         # Revert object to last change, and check view counter
-        test_tag.history.order_by("-pgh_id")[0]
+        test_tag.history.order_by("-pgh_id")[0].revert()
         self.assertEqual(test_tag.view_count, 0)
 
 

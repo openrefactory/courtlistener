@@ -9,8 +9,7 @@ from cl.search.models import Docket, OpinionCluster, RECAPDocument
 
 
 @pghistory.track(
-    pghistory.Snapshot(),
-    obj_field=pghistory.ObjForeignKey(related_name="history"),
+    pghistory.Snapshot()
 )
 class Favorite(models.Model):
     date_created = models.DateTimeField(
@@ -73,8 +72,7 @@ class Favorite(models.Model):
 
 
 @pghistory.track(
-    pghistory.Snapshot(),
-    obj_field=pghistory.ObjForeignKey(related_name="history"),
+    pghistory.Snapshot()
 )
 class DocketTag(models.Model):
     """Through table linking dockets to tags"""
@@ -93,8 +91,7 @@ class DocketTag(models.Model):
 
 
 @pghistory.track(
-    pghistory.Snapshot(),
-    obj_field=pghistory.ObjForeignKey(related_name="history"),
+    pghistory.Snapshot()
 )
 class UserTag(AbstractDateTimeModel):
     """Tags that can be added by users to various objects"""
@@ -139,8 +136,7 @@ class UserTag(AbstractDateTimeModel):
 
 
 @pghistory.track(
-    pghistory.Snapshot(),
-    obj_field=pghistory.ObjForeignKey(related_name="history"),
+    pghistory.Snapshot()
 )
 class Prayer(models.Model):
     WAITING = 1
