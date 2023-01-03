@@ -334,7 +334,7 @@ class UserFavoritesTest(BaseSeleniumTest):
         self.assert_text_in_node("Renamed Favorite", "body")
         self.assert_text_in_node("Modified Notes", "body")
 
-    def test_revert_usertag(self):
+    def test_revert_usertag(self) -> None:
         # Can we revert an object that is being tracked with django-pghistory?
 
         tag_name = "test-tag"
@@ -358,7 +358,7 @@ class UserFavoritesTest(BaseSeleniumTest):
         self.assertEqual(test_tag.view_count, 1)
 
         # Revert object to last change, and check view counter
-        test_tag.history.order_by("-pgh_id")[0].revert()
+        test_tag.event.order_by("-pgh_id")[0].revert()
         self.assertEqual(test_tag.view_count, 0)
 
 
