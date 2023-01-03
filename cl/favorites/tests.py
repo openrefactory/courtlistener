@@ -19,7 +19,7 @@ from cl.search.views import get_homepage_stats
 from cl.tests.base import SELENIUM_TIMEOUT, BaseSeleniumTest
 from cl.tests.cases import APITestCase, TestCase
 from cl.tests.utils import make_client
-from cl.users.factories import UserProfileWithParentsFactory
+from cl.users.factories import UserProfileWithParentsFactory, UserFactory
 
 
 class FavoriteTest(SimpleUserDataMixin, TestCase):
@@ -338,10 +338,10 @@ class UserFavoritesTest(BaseSeleniumTest):
         # Can we revert an object that is being tracked with django-pghistory?
 
         tag_name = "test-tag"
-        params = {"username": "kramirez", "password": "password"}
-        test_user = UserProfileWithParentsFactory.create(
-            user__username=params["username"],
-            user__password=make_password(params["password"]),
+        params = {"username": "kramirez"}
+        test_user = UserFactory.create(
+            username=params["username"],
+            email="test@courtlistener.com",
         )
         test_tag = UserTag.objects.create(
             user=test_user, name=tag_name, title="Test tag"
