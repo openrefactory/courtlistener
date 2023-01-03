@@ -336,13 +336,14 @@ class UserFavoritesTest(BaseSeleniumTest):
 
     def test_revert_usertag(self) -> None:
         # Can we revert an object that is being tracked with django-pghistory?
-
         tag_name = "test-tag"
         params = {"username": "kramirez"}
         test_user = UserFactory.create(
             username=params["username"],
             email="test@courtlistener.com",
         )
+
+        # Object is created with view_count = 0, event object created
         test_tag = UserTag.objects.create(
             user=test_user, name=tag_name, title="Test tag"
         )
@@ -353,12 +354,15 @@ class UserFavoritesTest(BaseSeleniumTest):
         )
         request = RequestFactory().get(path)
 
-        # Increment view counter by 1
+        # Increment view counter by 1, event object created
         increment_view_count(test_tag, request)
         self.assertEqual(test_tag.view_count, 1)
 
-        # Revert object to last change, and check view counter
-        test_tag.event.order_by("-pgh_id")[0].revert()
+        # Revert object to previous change, we use the second-to-last because
+        # the latest event always contains the current version of the model
+        test_tag = test_tag.event.order_by("-pgh_id")[1].revert()
+
+        # Check that view count set to 0 again
         self.assertEqual(test_tag.view_count, 0)
 
 
