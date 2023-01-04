@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from cl.lib.pghistory_admin import EventHistoryAdmin
 from cl.favorites.models import DocketTag, Favorite, UserTag
 
 
@@ -16,7 +17,7 @@ class FavoriteInline(admin.TabularInline):
 
 
 @admin.register(Favorite)
-class FavoriteAdmin(admin.ModelAdmin):
+class FavoriteAdmin(EventHistoryAdmin):
     list_display = (
         "id",
         "user",
@@ -32,7 +33,7 @@ class FavoriteAdmin(admin.ModelAdmin):
 
 
 @admin.register(DocketTag)
-class DocketTagAdmin(admin.ModelAdmin):
+class DocketTagAdmin(EventHistoryAdmin):
     raw_id_fields = ("docket", "tag")
     list_display = (
         "id",
@@ -41,7 +42,7 @@ class DocketTagAdmin(admin.ModelAdmin):
 
 
 @admin.register(UserTag)
-class UserTagAdmin(admin.ModelAdmin):
+class UserTagAdmin(EventHistoryAdmin):
     raw_id_fields = ("user", "dockets")
     readonly_fields = ("date_modified", "date_created")
 

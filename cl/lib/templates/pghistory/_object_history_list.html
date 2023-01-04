@@ -1,0 +1,32 @@
+{% load i18n %}
+{% load admin_urls %}
+{% load getattribute from pghistory %}
+
+<table id="change-history" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th scope="col">{% trans 'PGH ID' %}</th>
+      {% for column in history_list_display %}
+        <th scope="col">{% trans column %}</th>
+      {% endfor %}
+      <th scope="col">{% trans 'PGH label' %}</th>
+      <th scope="col">{% trans 'PGH created at' %}</th>
+      <th scope="col">{% trans 'Date created' %}</th>
+      <th scope="col">{% trans 'Date modified' %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for action in action_list %}
+      <tr>
+        <td><a href="{% url opts|admin_urlname:'event_history' object.pk action.pk %}">{{ action.pgh_id }} (Click to select)</a></td>
+        {% for column in history_list_display %}
+        <td scope="col">{{ action|getattribute:column }}</th>
+        {% endfor %}
+        <td>{{ action.pgh_label }}</td>
+        <td>{{ action.pgh_created_at }}</td>
+        <td>{{ action.date_created }}</td>
+        <td>{{ action.date_modified }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

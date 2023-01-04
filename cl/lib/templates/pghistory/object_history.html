@@ -1,0 +1,20 @@
+{% extends "admin/object_history.html" %}
+{% load i18n %}
+{% load admin_urls %}
+{% load display_list from pghistory %}
+
+
+{% block content %}
+  <div id="content-main">
+    <p>
+      {% blocktrans %}Choose an object revision id from the list below to revert to a
+        previous version of this object.{% endblocktrans %}</p>
+    <div class="module">
+      {% if action_list %}
+        {% display_list %}
+      {% else %}
+        <p>{% trans "This object doesn't have a change history." %}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
