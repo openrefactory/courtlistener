@@ -363,7 +363,7 @@ class UserFavoritesTest(BaseSeleniumTest):
         # Check that view count set to 0 again
         test_tag = test_tag.event.order_by("-pgh_id")[1].revert()
         self.assertEqual(test_tag.view_count, 0)
-  
+
         # Grab the original item from the DB, just to be sure
         test_tag.refresh_from_db()
         self.assertEqual(test_tag.view_count, 0)
