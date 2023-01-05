@@ -12,7 +12,8 @@ def getattribute(value, arg):
 register.filter("getattribute", getattribute)
 
 
-@register.inclusion_tag("pghistory/_object_history_list.html",
-                        takes_context=True)
+@register.inclusion_tag(
+    "pghistory/_object_history_list.html", takes_context=True
+)
 def display_list(context):
     return context

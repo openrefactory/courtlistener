@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from cl.lib.pghistory_admin import EventHistoryAdmin
 from cl.favorites.models import DocketTag, Favorite, UserTag
+from cl.lib.pghistory_admin import EventHistoryAdmin
 
 
 class FavoriteInline(admin.TabularInline):
