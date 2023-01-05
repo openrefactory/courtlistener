@@ -9,8 +9,7 @@
     <a href="{{ changelist_url }}">{{ opts.verbose_name_plural|capfirst }} W</a>
     &rsaquo;
     <a href="{{ change_url }}">{{ original|truncatewords:"18"}} E</a> &rsaquo;
-    <a href="..">{% trans "History" %}</a> &rsaquo;
-    {% blocktrans with original_opts.verbose_name as verbose_name %}Revert "
+    <a href="..">{% trans "History" %}</a> &rsaquo;{% blocktrans with original_opts.verbose_name as verbose_name %}Revert "
       {{ verbose_name }}"{% endblocktrans %}
   </div>
 {% endblock %}
@@ -24,6 +23,5 @@
 {% endblock %}
 
 {% block form_top %}
-  <p>{% blocktrans %}Press the 'Revert' button below to
-    revert to this version of the object. {% endblocktrans %}</p>
+  <p>{% blocktrans %}Press the 'Revert' button below to revert to this version of the object. {% endblocktrans %}</p>
 {% endblock %}
