@@ -4,13 +4,13 @@
 {% block breadcrumbs %}
   <div class="breadcrumbs">
     <a href="{% url "admin:index" %}">{% trans "Home" %}</a> &rsaquo;
-    <a href="{% url "admin:app_list" app_label %}">{{ app_label|capfirst|escape }} Q</a>
+    <a href="{% url "admin:app_list" app_label %}">{{ app_label|capfirst|escape }}</a>
     &rsaquo;
-    <a href="{{ changelist_url }}">{{ opts.verbose_name_plural|capfirst }} W</a>
+    <a href="{% url changelist_url %}">{{ opts.verbose_name_plural|capfirst }}</a>
     &rsaquo;
-    <a href="{{ change_url }}">{{ original|truncatewords:"18"}} E</a> &rsaquo;
-    <a href="..">{% trans "History" %}</a> &rsaquo;{% blocktrans with original_opts.verbose_name as verbose_name %}Revert "
-      {{ verbose_name }}"{% endblocktrans %}
+    <a href="{% url change_url original.pk %}">{{ original|truncatewords:"18"}}</a>
+    &rsaquo;
+    <a href="..">{% trans "History" %}</a> &rsaquo; {% blocktrans with original_opts.verbose_name as verbose_name %}Revert "{{ verbose_name }}"{% endblocktrans %}
   </div>
 {% endblock %}
 
@@ -23,5 +23,19 @@
 {% endblock %}
 
 {% block form_top %}
-  <p>{% blocktrans %}Press the 'Revert' button below to revert to this version of the object. {% endblocktrans %}</p>
+  <p>{% trans "Press the 'Revert' button below to revert to this version of the object." %}</p>
+
+  <div class="diff form-row">
+    <h4>{% trans "Diff with previous event object" %}</h4>
+    <p>
+      {% if last_diff %}
+        {{ last_diff }}
+      {% else %}
+        {% trans "There are no previous changes." %}
+      {% endif %}
+    </p>
+
+  </div>
+
+
 {% endblock %}
