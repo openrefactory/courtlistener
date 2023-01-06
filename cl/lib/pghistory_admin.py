@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import re_path, resolve, reverse
 from django.utils.encoding import force_str
-from django.utils.html import mark_safe
+from django.utils.safestring import mark_safe
 from django.utils.text import capfirst
 from django.utils.translation import gettext as _
 
